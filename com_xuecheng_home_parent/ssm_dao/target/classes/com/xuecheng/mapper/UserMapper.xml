@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?> <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xuecheng.mapper.UserMapper">
+    <!--查询所有用户-->
+    <select id="findAllUser" resultType="com.xuecheng.domain.User">
+        SELECT id, NAME, portrait, phone, PASSWORD, STATUS, create_time FROM USER
+        <where>
+            <if test="true">and is_del != 1</if>
+            <if test="username != null">
+                and name = #{username}
+            </if>
+            <if test="startCreateTime != null and endCreateTime != null">
+                and create_time BETWEEN #{startCreateTime} AND
+                #{endCreateTime}
+            </if>
+        </where>
+    </select>
+    <!-- 修改用户状态 -->
+    <update id="updateUserStatus" parameterType="com.xuecheng.domain.User">
+               UPDATE USER SET STATUS = #{status} where id = #{id}
+ </update>
+</mapper>
